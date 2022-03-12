@@ -1,0 +1,38 @@
+html{
+    font-family: 'Quicksand', sans-serif;;
+}
+
+.card-main{
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: space-around;
+ 
+}
+
+.card{
+    
+    border: 2px solid grey;
+    text-align: center;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-bottom: 20px;
+    width: 25vw;
+
+}
+
+.size{
+    color: red;
+}
+
+h1{
+    text-align: center;
+}
+
+img{
+    display: block;
+    margin: auto;
+    padding-bottom: 10px;
+}
