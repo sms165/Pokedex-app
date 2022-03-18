@@ -35,7 +35,24 @@ let pokemonRepository= (function () {
 
     //functions
     function add (pokemon) {
-        pokemonList.push(pokemon);
+        //check if item is in correct format
+        if (typeof pokemon === 'object') {
+            if (Object.keys(pokemon).includes('name')&& Object.keys(pokemon).includes('height') && Object.keys(pokemon).includes('types') && Object.keys(pokemon).includes('abilities') ) {
+                pokemonList.push(pokemon);
+                console.log(true);    
+            }  else{
+                console.log(false);
+            }
+        
+        }
+        
+        
+    }
+
+    function find(value) {
+        let pokemonCharacter = pokemonList.filter(pokemon => pokemon.name === value);
+        console.log(pokemonCharacter);
+
         
     }
     
@@ -46,7 +63,8 @@ let pokemonRepository= (function () {
     
     return{
         add: add,
-        getAll:getAll
+        getAll:getAll,
+        find: find
     };
 
   
@@ -81,6 +99,11 @@ let pokemonRepository= (function () {
 // ];
 // console.log(pl[0]);
 
+//add new pokemon
+pokemonRepository.add({name: 'Jigglypuff', height: 1.08, types: 'normal, fairy', abilities: 'cute charm, competitive'});
+
+//find pokemon by name
+pokemonRepository.find('Bulbasaur');
 
 //use of IIFE
 let pokemonList =pokemonRepository.getAll();
@@ -99,5 +122,7 @@ pokemonList.forEach(function(pokemon) {
 });
 
 document.write('</div>')
+
+
 
 
