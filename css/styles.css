@@ -2,6 +2,11 @@ html{
     font-family: 'Quicksand', sans-serif;;
 }
 
+*{
+    box-sizing: border-box;
+    margin: 0;
+}
+
 .card-main{
     display: flex;
     justify-content: space-around;
@@ -35,4 +40,19 @@ img{
     display: block;
     margin: auto;
     padding-bottom: 10px;
+}
+
+main{
+    text-align: center;
+}
+
+.pokemon-list{
+    text-decoration: none;
+    list-style: none;
+}
+
+.btn{
+    color: red;
+    padding: 10px;
+    width: 200px;
 }
