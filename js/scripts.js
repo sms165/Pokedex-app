@@ -33,17 +33,32 @@ let pokemonRepository= (function () {
     
     pokemonList= [bulbasaur, charmander, squirtle, pikachu];
 
+    //list of valid keys for the pokemon character
+    const validKeys = ['name', 'height', 'types', 'abilities'];
+
+    function hasValidKeys(pokemon, validKeys) {
+        let isValid = true;
+        const pokemonKeys = Object.keys(pokemon);
+
+        pokemonKeys.forEach(key => {
+            if (!validKeys.includes(key)) {
+                isValid = false;
+                return;    
+            }
+        });
+        return isValid;
+        
+    }
+
     //functions
     function add (pokemon) {
         //check if item is in correct format
-        if (typeof pokemon === 'object') {
-            if (Object.keys(pokemon).includes('name')&& Object.keys(pokemon).includes('height') && Object.keys(pokemon).includes('types') && Object.keys(pokemon).includes('abilities') ) {
-                pokemonList.push(pokemon);
-                console.log(true);    
+        if (hasValidKeys(pokemon, validKeys)) {
+           pokemonList.push(pokemon);
+           console.log(true);    
             }  else{
                 console.log(false);
             }
-        } 
     }
 
     function eventListenerBtn(button, pokemon) {
@@ -119,6 +134,8 @@ let pokemonRepository= (function () {
 
 //add new pokemon
 pokemonRepository.add({name: 'Jigglypuff', height: 1.08, types: 'normal, fairy', abilities: 'cute charm, competitive'});
+
+pokemonRepository.add({ height: 1.08, types: 'normal, fairy', abilities: 'cute charm, competitive'});
 
 //find pokemon by name
 pokemonRepository.find('Bulbasaur');
