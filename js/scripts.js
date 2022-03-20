@@ -1,66 +1,12 @@
 //IIFE
 let pokemonRepository= (function () {
     let pokemonList = [];
+    let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
 
-    //pokemon objects
-    let  bulbasaur = {
-        name: 'Bulbasaur',
-        height: 7,
-        types: ['grass', ' poison'],
-        abilities: ['chlorophyll', ' overgrow']
-    };
-    
-    let  charmander = {
-        name: 'Charmander',
-        height: 6,
-        types: ['fire'],
-        abilities: ['blaze', ' solar-power']
-    };
-    
-    let  squirtle = {
-        name: 'Squirtle',
-        height: 5,
-        types: ['water'],
-        abilities: ['rain-dish', ' torrent']
-    };
-    
-    let  pikachu = {
-        name: 'Pikachu',
-        height: 4,
-        types: ['electric'],
-        abilities: ['static', ' lightningrod']
-    };
-    
-    pokemonList= [bulbasaur, charmander, squirtle, pikachu];
 
-    //list of valid keys for the pokemon character
-    const validKeys = ['name', 'height', 'types', 'abilities'];
-
-    //check if the new pokemon has the correct number of keys and correct names
-    function hasValidKeys(pokemon, validKeys) {
-        let isValid = true;
-        const pokemonKeys = Object.keys(pokemon);
-
-        if (validKeys.length === Object.keys(pokemon).length) {
-            pokemonKeys.forEach(key => {
-                if (!validKeys.includes(key)) {
-                    isValid = false;
-                    return;    
-                }
-            });
-            return isValid;
-        }  
-    }
-
-    //functions
+    //add a new pokemon
     function add (pokemon) {
-        //check if item is in correct format
-        if (hasValidKeys(pokemon, validKeys)) {
-           pokemonList.push(pokemon);
-           console.log(true);    
-            }  else{
-                console.log(false);
-            }
+        pokemonList.push(pokemon);
     }
 
     function eventListenerBtn(button, pokemon) {
@@ -82,7 +28,9 @@ let pokemonRepository= (function () {
     }
 
     function showDetails(pokemon) {
-        console.log(pokemon);
+        loadDetails(pokemon).then(function (){
+            console.log(pokemon);
+        })
     }
 
     function find(value) {
@@ -94,51 +42,56 @@ let pokemonRepository= (function () {
         return pokemonList
         
     }
+
+    //fetches pokemons from api then add them to the pokemon list using the add function
+    function loadList() {
+        return fetch(apiUrl).then(function (response) {
+            return response.json();    
+        }).then(function (json){
+            json.results.forEach(function(item){
+                let pokemon = {
+                    name: item.name,
+                    detailsUrl: item.url
+                };
+                add(pokemon);
+            });
+        }).catch(function(e){
+            console.error(e);
+        })
+    }
+
+    function loadDetails(item) {
+        let url = item.detailsUrl;
+        return fetch(url).then(function(response){
+            return response.json();
+        }).then(function (details){
+            item.imageUrl = details.sprites.front_default;
+            item.height = details.height;
+            item.types = details.types;
+        }).catch(function (e){
+            console.error(e);
+        });
+    }
+
     
     return{
         add: add,
         getAll:getAll,
         find: find,
-        addListItem: addListItem
+        addListItem: addListItem,
+        loadList:loadList,
+        loadDetails:loadDetails
     };
 
   
 })();
 
+pokemonRepository.loadList().then(function(){
+    pokemonRepository.getAll().forEach(function(pokemon){
+        pokemonRepository.addListItem(pokemon);
+    })
+})
 
-// let pl =[
-//     {
-//         name: 'Bulbasaur',
-//         height: 7,
-//         types: ['grass', 'poison'],
-//         abilities: ['chlorophyll', 'overgrow']
-//     },
-//     {
-//         name: 'Charmander',
-//         height: 6,
-//         types: ['fire'],
-//         abilities: ['blaze', 'solar-power']
-//     },
-//     {
-//         name: 'Squirtle',
-//         height: 5,
-//         types: ['water'],
-//         abilities: ['rain-dish', 'torrent']
-//     },
-//     {
-//         name: 'Pikachu',
-//         height: 4,
-//         types: ['electric'],
-//         abilities: ['static', 'lightningrod']
-//     }
-// ];
-// console.log(pl[0]);
-
-//add new pokemon
-pokemonRepository.add({name: 'Jigglypuff', height: 1.08, types: 'normal, fairy', abilities: 'cute charm, competitive'});
-
-//test for false (missing parameter)
-pokemonRepository.add({  height: 1.08, types: 'normal, fairy', abilities: 'cute charm, competitive'});
 
 //find pokemon by name
 pokemonRepository.find('Bulbasaur');
