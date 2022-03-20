@@ -36,18 +36,20 @@ let pokemonRepository= (function () {
     //list of valid keys for the pokemon character
     const validKeys = ['name', 'height', 'types', 'abilities'];
 
+    //check if the new pokemon has the correct number of keys and correct names
     function hasValidKeys(pokemon, validKeys) {
         let isValid = true;
         const pokemonKeys = Object.keys(pokemon);
 
-        pokemonKeys.forEach(key => {
-            if (!validKeys.includes(key)) {
-                isValid = false;
-                return;    
-            }
-        });
-        return isValid;
-        
+        if (validKeys.length === Object.keys(pokemon).length) {
+            pokemonKeys.forEach(key => {
+                if (!validKeys.includes(key)) {
+                    isValid = false;
+                    return;    
+                }
+            });
+            return isValid;
+        }  
     }
 
     //functions
@@ -135,7 +137,8 @@ let pokemonRepository= (function () {
 //add new pokemon
 pokemonRepository.add({name: 'Jigglypuff', height: 1.08, types: 'normal, fairy', abilities: 'cute charm, competitive'});
 
-pokemonRepository.add({ height: 1.08, types: 'normal, fairy', abilities: 'cute charm, competitive'});
+//test for false (missing parameter)
+pokemonRepository.add({  height: 1.08, types: 'normal, fairy', abilities: 'cute charm, competitive'});
 
 //find pokemon by name
 pokemonRepository.find('Bulbasaur');
