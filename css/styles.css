@@ -8,54 +8,42 @@ html {
     margin: 0;
 }
 
-.card-main {
+header{
     display: flex;
-    justify-content: space-around;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-content: space-around;
-
+    width: 100%;
+    padding: 5px;
+    border-bottom: 1px solid rgba(255,255,255,.3);
+    padding-left: 20px;
+    
 }
 
-.card {
-
-    border: 2px solid grey;
-    text-align: center;
-    padding-bottom: 10px;
-    padding-left: 5px;
-    padding-right: 5px;
-    margin-bottom: 20px;
-    width: 25vw;
-
-}
-
-.size {
-    color: red;
-}
-
-h1 {
-    text-align: center;
-}
-
-img {
-    display: block;
-    margin: auto;
-    padding-bottom: 10px;
+.title{
+    margin-top: 30px;
 }
 
 main {
     text-align: center;
 }
 
+/*remove bullet points */
 .pokemon-list {
     text-decoration: none;
     list-style: none;
 }
 
 .btn {
-    color: red;
+    background-color: aliceblue;
+    font-size: 2em;
     padding: 10px;
-    width: 200px;
+    width: 300px;
+    height: 100px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    border-radius: 8px
+}
+
+.btn:hover{
+    color: red;
 }
 
 /*modal*/
@@ -83,6 +71,12 @@ main {
     display: grid;
     
 
+}
+
+modal-container.img {
+    display: block;
+    margin: auto;
+    padding-bottom: 10px;
 }
 
 
