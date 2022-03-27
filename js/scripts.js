@@ -30,7 +30,7 @@ let pokemonRepository = (function () {
 
     function showDetails(pokemon) {
         loadDetails(pokemon).then(function () {
-            console.log(pokemon);
+            showModal(pokemon)
         })
     }
 
@@ -75,7 +75,7 @@ let pokemonRepository = (function () {
     }
 
     //modal
-    function showModal(title, text) {
+    function showModal(pokemon) {
 
         //clear all content inside of modal
         modalContainer.innerHTML = ''
@@ -89,14 +89,35 @@ let pokemonRepository = (function () {
         closeButtonElement.addEventListener('click', hideModal);
 
         let titleElement = document.createElement('h1');
-        titleElement.innerText = title;
+        titleElement.innerText = pokemon.name;
 
         let contentElement = document.createElement('p');
-        contentElement.innerText = text;
+        contentElement.innerHTML= 'Height: ' + pokemon.height + '<br />';
+        contentElement.innerHTML+=  'Abilites: ';
+        let abilites = pokemon.types;
+        console.log(pokemon.types)
+
+        for (let i = 0; i < abilites.length; i++) {
+            const element = abilites[i];
+            if (i>0) {
+                contentElement.innerHTML += ', ' + element.type.name ;
+                
+            }else{
+            contentElement.innerHTML += element.type.name +' ';
+            }
+            
+        }
+        
+        
+
+
+        let imgElement = document.createElement('img');
+        imgElement.src = pokemon.imageUrl;
 
         modal.appendChild(closeButtonElement);
         modal.appendChild(titleElement);
         modal.appendChild(contentElement);
+        modal.appendChild(imgElement);
         modalContainer.appendChild(modal);
 
         modalContainer.classList.add('is-visible');
@@ -122,9 +143,7 @@ let pokemonRepository = (function () {
         }
     });
 
-    document.querySelector('#show-modal').addEventListener('click', () => {
-        showModal('Modal title', 'This is the modal content');
-    });
+   
 
     return {
         add: add,
