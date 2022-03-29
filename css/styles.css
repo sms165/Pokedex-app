@@ -47,7 +47,7 @@ main {
 }
 
 /*modal*/
-#modal-container {
+/* #modal-container {
     display: none;
 }
 
@@ -62,18 +62,18 @@ main {
     background: rgba(0, 0, 0, 0.5);
 
     /* to show it above other content */
-    z-index: 999;
+    /* z-index: 999; */
 
     /* to allow scrolling if the screen is not high enough*/
-    overflow: auto;
+    /* overflow: auto; */
 
     /* this is used to center the modal */
-    display: grid;
+    /* display: grid; */
     
 
-}
+/* } */ 
 
-modal-container.img {
+/* modal-container.img {
     display: block;
     margin: auto;
     padding-bottom: 10px;
@@ -108,4 +108,4 @@ modal-container.img {
 
 .modal p {
     margin-bottom: 0;
-}
+} */
