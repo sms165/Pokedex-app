@@ -35,7 +35,7 @@ main {
     background-color: aliceblue;
     font-size: 2em;
     padding: 10px;
-    width: 300px;
+    width: 200px;
     height: 100px;
     text-transform: uppercase;
     margin-bottom: 10px;
@@ -109,3 +109,11 @@ main {
 .modal p {
     margin-bottom: 0;
 } */
+
+.pokemon-image{
+    width: 40vw;
+}
+
+.modal-header{
+    text-transform: uppercase;
+}
