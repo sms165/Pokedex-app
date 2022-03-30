@@ -19,12 +19,26 @@
         <img src="images/pokemon-ball.png" alt="pokemon-ball" height="100px">
         <h1 class="title">Pokedex</h1>
 
+       
+
     </header>
     <main>
+        <div>
+            <form class="form-inline">
+              <input
+                class="form-control, pokemon-search"
+                id="search-pokemon"
+                type="search"
+                placeholder="Search Pokemon"
+                aria-label="Search for a Pokemon"
+                onkeyup= "pokemonRepository.find(value)"
+              />
+            </form>
+          </div>
 
 
         <!-- List of Pokemon -->
-        <ul class="list-group pokemon-list">
+        <ul class="list-group pokemon-list" id="pokemon-list">
 
         </ul>
 
@@ -44,14 +58,14 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn-secondary" data-dismiss="modal">Close</button>
                         
                     </div>
                 </div>
             </div>
         </div>
 
-
+      
        
 
     </main>

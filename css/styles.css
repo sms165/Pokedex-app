@@ -117,3 +117,17 @@ main {
 .modal-header{
     text-transform: uppercase;
 }
+
+.modal-footer{
+    background-color: lightgrey;
+}
+
+.btn-secondary{
+    background-color: azure;
+    color: gray;
+    box-shadow: 10px;
+}
+
+.carousel-control-next-icon{
+    color: red;
+}
