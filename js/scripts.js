@@ -2,7 +2,7 @@
 let pokemonRepository = (function () {
     let pokemonList = [];
     let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
-    let modalContainer = document.querySelector('#modal-container');
+    let modalContainer = document.querySelector('#pokemon-modal');
 
 
     //add a new pokemon
@@ -20,9 +20,15 @@ let pokemonRepository = (function () {
     function addListItem(pokemon) {
         let pokemonListHtml = document.querySelector('.pokemon-list');
         let listItem = document.createElement('li');
+        listItem.classList.add('group-list-item');
+        listItem.classList.add('col-lg-4', 'col-sm-12', 'col-md-6');
+        listItem.classList.add(pokemon.name);
         let button = document.createElement('button');
         button.innerText = pokemon.name;
-        button.classList.add('btn')
+        button.classList.add('btn', 'btn-primary');
+        button.setAttribute('data-toggle', 'modal');
+        button.setAttribute('data-target', '#pokemonModal');
+
         listItem.appendChild(button);
         pokemonListHtml.appendChild(listItem);
         eventListenerBtn(button, pokemon);
@@ -34,10 +40,25 @@ let pokemonRepository = (function () {
         })
     }
 
+    // Search for Pokemon with input search box
     function find(value) {
-        let pokemonCharacter = pokemonList.filter(pokemon => pokemon.name === value);
-        console.log(pokemonCharacter);
+
+        console.log(value);
+        v = value.toLowerCase();
+        $(".pokemon-list").empty();
+
+        // console.log(pokemonList);
+
+        pokemonList.forEach((pokemon) => {
+            if (pokemon.name.indexOf(v) > -1) {
+                console.log(pokemon.name);
+                addListItem(pokemon);
+            } else {
+                console.log(false);
+            }
+        })
     }
+
 
     function getAll() {
         return pokemonList
@@ -66,63 +87,174 @@ let pokemonRepository = (function () {
         return fetch(url).then(function (response) {
             return response.json();
         }).then(function (details) {
-            item.imageUrl = details.sprites.front_default;
+            item.imageUrl = details.sprites.other.dream_world.front_default;
+            item.imageUrlArtwork = details.sprites.other.home.front_default;
             item.height = details.height;
             item.types = details.types;
+            item.weight = details.weight;
+            item.abilities = details.abilities;
+            console.log(item.detailsUrl)
+            item.detailsUrl;
+
         }).catch(function (e) {
             console.error(e);
         });
     }
 
+
     //modal
     function showModal(pokemon) {
+        let modalBody = $('.modal-body');
+        let modalTitle = $('.modal-title');
+        let modalHeader = $('.modal-header');
 
-        //clear all content inside of modal
-        modalContainer.innerHTML = ''
+        modalTitle.empty();
+        modalHeader.empty();
+        modalBody.empty();
 
-        let modal = document.createElement('div');
-        modal.classList.add('modal');
+        let namePokemon = $('<h1>' + pokemon.name + '</h1>');
 
-        let closeButtonElement = document.createElement('button');
-        closeButtonElement.classList.add('modal-close');
-        closeButtonElement.innerText = 'Close';
-        closeButtonElement.addEventListener('click', hideModal);
+        // Loop through Pokemon Characters from list
+        let forwardCharacterButton = document.createElement('button');
+        forwardCharacterButton.classList.add('forward-arrow')
+        forwardCharacterButton.innerText = '>';
 
-        let titleElement = document.createElement('h1');
-        titleElement.innerText = pokemon.name;
+        let backwardCharacterButton = document.createElement('button');
+        backwardCharacterButton.classList.add('backward-arrow')
+        backwardCharacterButton.innerText = '<';
 
-        let contentElement = document.createElement('p');
-        contentElement.innerHTML= 'Height: ' + pokemon.height + '<br />';
-        contentElement.innerHTML+=  'Abilites: ';
-        let abilites = pokemon.types;
-        console.log(pokemon.types)
 
-        for (let i = 0; i < abilites.length; i++) {
-            const element = abilites[i];
-            if (i>0) {
-                contentElement.innerHTML += ', ' + element.type.name ;
-                
-            }else{
-            contentElement.innerHTML += element.type.name +' ';
+        forwardCharacterButton.addEventListener('click', function () {
+
+            for (let i = 0; i < pokemonList.length; i++) {
+                const element = pokemonList[i];
+                // console.log(element);
+                let index = pokemonList.indexOf(pokemon) + 1;
+                // console.log(index);
+                // console.log(pokemonList[index]);
+                let next = pokemonList[index];
+
+                if (index == pokemonList.length) {
+                    showDetails(pokemonList[0])
+
+                } else {
+                    showDetails(next);
+                }
             }
-            
+
+        })
+
+        backwardCharacterButton.addEventListener('click', function () {
+
+            for (let i = 0; i < pokemonList.length; i++) {
+                const element = pokemonList[i];
+                // console.log(element);
+                let index = pokemonList.indexOf(pokemon) - 1;
+                console.log(index);
+                //console.log(pokemonList[index]);
+                let next = pokemonList[index];
+                let num = parseInt((pokemonList.length) - 1);
+                console.log(num)
+                let last = pokemonList[num];
+                console.log(last)
+                console.log(pokemonList[0])
+
+                if (index <= -1) {
+                    showDetails(pokemonList[num])
+
+                } else {
+                    showDetails(next);
+                }
+            }
+
+        })
+
+
+        // Pokemon Character Images
+        let imagePokemon = document.createElement('img');
+        imagePokemon.src = pokemon.imageUrl;
+        imagePokemon.classList.add('pokemon-image');
+
+        let forwardImageButton = document.createElement('button');
+        forwardImageButton.classList.add('forward-arrow')
+        forwardImageButton.innerText = '>';
+
+        forwardImageButton.addEventListener('click', function () {
+            if (imagePokemon.src == pokemon.imageUrl) {
+                imagePokemon.src = pokemon.imageUrlArtwork;
+
+            } else {
+                imagePokemon.src = pokemon.imageUrl
+            }
+        })
+
+        let backwardImageButton = document.createElement('button');
+        backwardImageButton.classList.add('backward-arrow');
+        backwardImageButton.innerText = '<';
+
+        backwardImageButton.addEventListener('click', function () {
+            if (imagePokemon.src == pokemon.imageUrlArtwork) {
+                imagePokemon.src = pokemon.imageUrl;
+
+            } else {
+                imagePokemon.src = pokemon.imageUrlArtwork
+            }
+        })
+
+
+        //modal content for body
+        let heightPokemonn = $('<p>' + 'Height: ' + pokemon.height + ' cm' + '</p>');
+
+        let weightPokemon = $('<p>' + 'Weight: ' + pokemon.weight + ' kg' + '</p>');
+
+        let typePokemon = ('<p>' + 'Types: ')
+
+        let type = pokemon.types;
+        //console.log(pokemon.types)
+
+        for (let i = 0; i < type.length; i++) {
+            const element = type[i];
+            if (i > 0) {
+                typePokemon += ', ' + element.type.name;
+
+            } else {
+                typePokemon += element.type.name + ' ';
+            }
+
         }
-        
-        
+        typePokemon += ('</p>');
+
+        let abilityPokemon = ('<p>' + 'Abilities: ')
+        let ability = pokemon.abilities;
 
 
-        let imgElement = document.createElement('img');
-        imgElement.src = pokemon.imageUrl;
+        for (let i = 0; i < ability.length; i++) {
+            const element = ability[i];
+            if (i > 0) {
+                abilityPokemon += ', ' + element.ability.name;
 
-        modal.appendChild(closeButtonElement);
-        modal.appendChild(titleElement);
-        modal.appendChild(contentElement);
-        modal.appendChild(imgElement);
-        modalContainer.appendChild(modal);
+            } else {
+                abilityPokemon += element.ability.name + ' ';
+            }
 
-        modalContainer.classList.add('is-visible');
+        }
+        abilityPokemon += ('</p>');
+
+        // Add everything to the modal
+        modalTitle.append(namePokemon);
+        modalHeader.append(backwardCharacterButton);
+        modalHeader.append(namePokemon);
+        modalHeader.append(forwardCharacterButton);
+        modalBody.append(heightPokemonn);
+        modalBody.append(weightPokemon);
+        modalBody.append(typePokemon);
+        modalBody.append(abilityPokemon);
+        modalBody.append(backwardImageButton);
+        modalBody.append(imagePokemon);
+        modalBody.append(forwardImageButton);
 
     };
+
 
     function hideModal() {
         modalContainer.classList.remove('is-visible');
@@ -135,15 +267,7 @@ let pokemonRepository = (function () {
         }
     });
 
-    //close the modal when the user clicks inside of it
-    modalContainer.addEventListener('click', (e) => {
-        let target = e.target;
-        if (target === modalContainer) {
-            hideModal();
-        }
-    });
 
-   
 
     return {
         add: add,
@@ -166,9 +290,6 @@ pokemonRepository.loadList().then(function () {
 })
 
 
-//find pokemon by name
-pokemonRepository.find('Bulbasaur');
-
 //use of IIFE
 let pokemonList = pokemonRepository.getAll();
 
@@ -177,3 +298,28 @@ let pokemonList = pokemonRepository.getAll();
 pokemonList.forEach(function (pokemon) {
     pokemonRepository.addListItem(pokemon);
 });
+
+let mybutton = document.getElementById("btn-back-to-top");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function () {
+scrollFunction();
+};
+
+function scrollFunction() {
+if (
+document.body.scrollTop > 20 ||
+document.documentElement.scrollTop > 20
+) {
+mybutton.style.display = "block";
+} else {
+mybutton.style.display = "none";
+}
+}
+// When the user clicks on the button, scroll to the top of the document
+mybutton.addEventListener("click", backToTop);
+
+function backToTop() {
+document.body.scrollTop = 0;
+document.documentElement.scrollTop = 0;
+}
