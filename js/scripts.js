@@ -159,7 +159,7 @@ let pokemonRepository = (function () {
                 console.log(last)
                 console.log(pokemonList[0])
 
-                if (index <= 0) {
+                if (index <= -1) {
                     showDetails(pokemonList[num])
 
                 } else {
