@@ -42,27 +42,24 @@ let pokemonRepository = (function () {
 
     // Search for Pokemon with input search box
     function find(value) {
-        
+
         console.log(value);
-        v= value.toLowerCase();
-         $(".pokemon-list").empty();
+        v = value.toLowerCase();
+        $(".pokemon-list").empty();
 
         // console.log(pokemonList);
-        
-        pokemonList.forEach((pokemon)=>{
-            if (pokemon.name.indexOf(v)>-1) {
-                console.log(pokemon.name)
-                addListItem(pokemon)
-                
-            }else{
-                console.log(false)
 
+        pokemonList.forEach((pokemon) => {
+            if (pokemon.name.indexOf(v) > -1) {
+                console.log(pokemon.name);
+                addListItem(pokemon);
+            } else {
+                console.log(false);
             }
         })
-
     }
-      
-    
+
+
     function getAll() {
         return pokemonList
 
@@ -117,6 +114,7 @@ let pokemonRepository = (function () {
 
         let namePokemon = $('<h1>' + pokemon.name + '</h1>');
 
+        // Loop through Pokemon Characters from list
         let forwardCharacterButton = document.createElement('button');
         forwardCharacterButton.innerText = '>';
 
@@ -124,25 +122,48 @@ let pokemonRepository = (function () {
         backwardCharacterButton.innerText = '<';
 
 
-
-
         forwardCharacterButton.addEventListener('click', function () {
 
-            console.log(pokemon.detailsUrl)
-            let number = pokemon.detailsUrl;
-            let cNum = (number.split('/')[6]);
-            cNum = (parseInt(cNum) + 1)
+            for (let i = 0; i < pokemonList.length; i++) {
+                const element = pokemonList[i];
+                // console.log(element);
+                let index = pokemonList.indexOf(pokemon) + 1;
+                // console.log(index);
+                // console.log(pokemonList[index]);
+                let next = pokemonList[index];
 
-            let cutUrl = number.substring(0, number.lastIndexOf('/') - 1);
+                if (index == pokemonList.length) {
+                    showDetails(pokemonList[0])
 
+                } else {
+                    showDetails(next);
+                }
+            }
 
-            let newUrl = (cutUrl + cNum);
-            console.log(newUrl)
+        })
 
-            
+        backwardCharacterButton.addEventListener('click', function () {
 
-            
+            for (let i = 0; i < pokemonList.length; i++) {
+                const element = pokemonList[i];
+                // console.log(element);
+                let index = pokemonList.indexOf(pokemon) - 1;
+                console.log(index);
+                //console.log(pokemonList[index]);
+                let next = pokemonList[index];
+                let num = parseInt((pokemonList.length) - 1);
+                console.log(num)
+                let last = pokemonList[num];
+                console.log(last)
+                console.log(pokemonList[0])
 
+                if (index <= 0) {
+                    showDetails(pokemonList[num])
+
+                } else {
+                    showDetails(next);
+                }
+            }
 
         })
 
@@ -180,14 +201,14 @@ let pokemonRepository = (function () {
 
 
 
-        let heightPokemonn = $('<p>' + 'Height: ' + pokemon.height + '</p>');
+        let heightPokemonn = $('<p>' + 'Height: ' + pokemon.height + ' cm' + '</p>');
 
-        let weightPokemon = $('<p>' + 'Weight: ' + pokemon.weight + '</p>');
+        let weightPokemon = $('<p>' + 'Weight: ' + pokemon.weight + ' kg' + '</p>');
 
         let typePokemon = ('<p>' + 'Types: ')
 
         let type = pokemon.types;
-        console.log(pokemon.types)
+        //console.log(pokemon.types)
 
         for (let i = 0; i < type.length; i++) {
             const element = type[i];
@@ -343,4 +364,3 @@ let pokemonList = pokemonRepository.getAll();
 pokemonList.forEach(function (pokemon) {
     pokemonRepository.addListItem(pokemon);
 });
-
