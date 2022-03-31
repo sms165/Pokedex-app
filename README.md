@@ -20,4 +20,4 @@ Users are able to view a list of data and see more details for a given data item
 * Pokeapi(https://pokeapi.co/?ref=public-apis)
 
 ## Image
-* Pokemonn ball via iconfinder.com
+* Pokemon ball via iconfinder.com
