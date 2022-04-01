@@ -9,5 +9,15 @@ Users are able to view a list of data and see more details for a given data item
 * CSS
 * JavaScript
 
+## Libraries
+* JQuery
+* FontAwesome
+
+## Frameworks
+* Bootstrap
+
 ## API
 * Pokeapi(https://pokeapi.co/?ref=public-apis)
+
+## Image
+* Pokemon ball via iconfinder.com
